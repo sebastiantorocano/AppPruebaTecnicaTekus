@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">AppPruebaTecnicaTekus</string>
+    <string name="app_name">App Prueba Tecnica Tekus</string>
     <string name="action_settings">Settings</string>
+    <string name="lblWelcome">Bienvenido</string>
+    <string name="btnLogin">Ingresar</string>
+    <string name="btnExit">Salir</string>
+    <string name="btnAdministrationNotification">Administrar Notificaciones</string>
+    <string name="btnDetectMovement">Detectar Movimiento</string>
 </resources>
