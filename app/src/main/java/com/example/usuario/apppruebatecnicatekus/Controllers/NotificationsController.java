@@ -54,15 +54,24 @@ public class NotificationsController {
     public void updateNotificationsDownloaded(String json){
         try {
 
+            notificationsModel.deleteAllRecord();
             JSONArray jsonArray=new JSONArray(json);
             for (int i = 0; i <jsonArray.length() ; i++) {
                 JSONObject helper=jsonArray.getJSONObject(i);
 
-                System.out.println("Notification id "+helper.getString("NotificationId"));
+                    notificationsModel.insertIntoTable("Date,Duration,SendState,NotificationId",helper.getString("Date"),helper.getString("Duration"),1,helper.getString("NotificationId"));
+
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public  Hashtable getAllNotifications(){
+        Hashtable result= notificationsModel.searchAll();
+
+        return  result;
     }
 
     public String getNotificationsSend() {
@@ -92,9 +101,5 @@ public class NotificationsController {
     }
 
 
-    public String notificationDownload(){
-
-        return "";
-    }
 
 }

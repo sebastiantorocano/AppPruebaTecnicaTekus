@@ -1,5 +1,7 @@
 package com.example.usuario.apppruebatecnicatekus.Connection;
 
+import android.os.StrictMode;
+
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -68,8 +70,11 @@ public class SendInformation {
 
 
 
-    public int peticionDELETE( String strUrl,String UserAuthorization )
+    public int peticionDELETE( String strUrl )
     {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         HttpURLConnection http = null;
         int responseCode = -1;
         try {
@@ -78,7 +83,7 @@ public class SendInformation {
             http.setRequestMethod("DELETE");
             http.setRequestProperty("Content-Type", "application/json");
             http.setRequestProperty("Accept", "application/json");
-            http.setRequestProperty("Authorization", UserAuthorization);
+            http.setRequestProperty("Authorization","Basic 1152216574");
 
             // Conectar y obtener el codigo de respuesta
             responseCode = http.getResponseCode();

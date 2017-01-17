@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent();
         i.setClass(MainActivity.this, MenuActivity.class);
         startActivity(i);
+        android.os.Process.killProcess(android.os.Process.myPid());
 
     }
 }

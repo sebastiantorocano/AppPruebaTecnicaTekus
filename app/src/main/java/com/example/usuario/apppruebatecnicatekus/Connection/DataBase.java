@@ -19,7 +19,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Notifications (_id INTEGER PRIMARY KEY AUTOINCREMENT,Date TEXT, Duration INTEGER, SendState INTEGER,Notification_Id INTEGER);");
+        db.execSQL("CREATE TABLE Notifications (_id INTEGER PRIMARY KEY AUTOINCREMENT,Date TEXT, Duration INTEGER, SendState INTEGER,NotificationId INTEGER);");
 
 
     }

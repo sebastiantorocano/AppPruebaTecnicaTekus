@@ -6,4 +6,6 @@
     <string name="btnExit">Salir</string>
     <string name="btnAdministrationNotification">Administrar Notificaciones</string>
     <string name="btnDetectMovement">Detectar Movimiento</string>
+    <string name="btnReturn">Volver</string>
+    <string name="btnRefresh">Refrescar</string>
 </resources>

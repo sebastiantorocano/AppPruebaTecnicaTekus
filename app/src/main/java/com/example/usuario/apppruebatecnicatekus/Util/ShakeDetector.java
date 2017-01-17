@@ -114,11 +114,11 @@ public class ShakeDetector  implements SensorEventListener{
                 if(seconds>=2){
 
                     notificationsController.updateNofitications(StringStartTime,StringdateNow,seconds);
-                    if(useful.hasInternet(CONTEXT)){
+
                        String json= notificationsController.getNotificationsSend();
 
                         System.out.println("json "+json);
-                    }
+
 
                 }
 
