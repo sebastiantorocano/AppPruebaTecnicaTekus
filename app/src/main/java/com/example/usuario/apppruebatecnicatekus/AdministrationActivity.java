@@ -35,6 +35,7 @@ import com.example.usuario.apppruebatecnicatekus.Util.Useful;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class AdministrationActivity extends AppCompatActivity {
 
@@ -102,6 +103,19 @@ public class AdministrationActivity extends AppCompatActivity {
         return true;
     }
 
+    private String callAsyncDownloadNotifications(){
+        String response="";
+        DownloadNotificationAsync downloadNotificationAsync= new DownloadNotificationAsync(AdministrationActivity.this,db);
+        try {
+          response=  downloadNotificationAsync.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return  response;
+    }
     public void Refresh(){
         AlertDialog.Builder ad= new AlertDialog.Builder(AdministrationActivity.this);
         ad.setTitle("Alerta");
@@ -109,8 +123,11 @@ public class AdministrationActivity extends AppCompatActivity {
         ad.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DownloadNotificationAsync downloadNotificationAsync= new DownloadNotificationAsync(AdministrationActivity.this,db);
-                downloadNotificationAsync.execute();
+                String response=callAsyncDownloadNotifications();
+                System.out.println("response refresh "+response);
+                if(response.equals("OK")){
+                    InitializeNotifications();
+                }
             }
         });
         ad.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -125,6 +142,9 @@ public class AdministrationActivity extends AppCompatActivity {
 
     public void Return() {
 
+        Intent i = new Intent();
+        i.setClass(AdministrationActivity.this,MenuActivity.class);
+        startActivity(i);
     }
 
 
@@ -191,7 +211,16 @@ public class AdministrationActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 DeleteNotificationAsync deleteNotificationAsync= new DeleteNotificationAsync(AdministrationActivity.this,db,NotificationId);
-                                deleteNotificationAsync.execute();
+                                try {
+                                    String response=deleteNotificationAsync.execute().get();
+                                    if(response.equals("OK")){
+                                        InitializeNotifications();
+                                    }
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
 
                             }
                         });

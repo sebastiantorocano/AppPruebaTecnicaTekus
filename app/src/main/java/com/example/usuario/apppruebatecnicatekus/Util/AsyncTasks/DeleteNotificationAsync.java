@@ -16,7 +16,7 @@ import com.example.usuario.apppruebatecnicatekus.Models.NotificationsModel;
  * Created by Usuario on 16/01/2017.
  */
 
-public class DeleteNotificationAsync extends AsyncTask<Void,Void,Void> {
+public class DeleteNotificationAsync extends AsyncTask<Void,Void,String> {
 
     private Context context;
     ProgressDialog pg;
@@ -48,22 +48,18 @@ public class DeleteNotificationAsync extends AsyncTask<Void,Void,Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected String doInBackground(Void... params) {
 
         System.out.println("Notification id delete "+NotificationId);
         sendInformation.peticionDELETE("http://proyectos.tekus.co/Test/api/notifications/"+NotificationId);
+        notificationsController.deleteNotification(NotificationId);
+        return "OK";
 
-        return null;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(String aVoid) {
         pg.dismiss();
-        downloadNotificationAsync.execute();
-       /* Intent i = new Intent();
-        i.setClass(context, AdministrationActivity.class);
-        context.startActivity(i);
-        android.os.Process.killProcess(android.os.Process.myPid());*/
         super.onPostExecute(aVoid);
     }
 

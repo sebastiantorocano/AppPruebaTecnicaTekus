@@ -2,6 +2,8 @@ package com.example.usuario.apppruebatecnicatekus.Connection;
 
 import android.os.StrictMode;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,10 +15,14 @@ import java.net.URL;
 public class SendInformation {
 
 
-    public int peticionPOST( String strUrl, String data ,String UserAuthorization)
+    public String peticionPOST( String strUrl, String data )
     {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         HttpURLConnection http = null;
         int responseCode = -1;
+        String content = null;
 
         try {
             URL url = new URL( strUrl );
@@ -24,12 +30,24 @@ public class SendInformation {
             http.setRequestMethod("POST");
             http.setRequestProperty("Content-Type", "application/json");
             http.setRequestProperty("Accept", "application/json");
-            http.setRequestProperty("Authorization", UserAuthorization);
+            http.setRequestProperty("Authorization","Basic 1152216574");
             http.setDoOutput(true);
 
             PrintWriter writer = new PrintWriter(http.getOutputStream());
             writer.print(data);
             writer.flush();
+
+            if( http.getResponseCode() == HttpURLConnection.HTTP_OK ) {
+                StringBuilder sb = new StringBuilder();
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader( http.getInputStream() ));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                content = sb.toString();
+                reader.close();
+            }
 
             responseCode = http.getResponseCode();
         } catch (Exception e) {
@@ -37,12 +55,17 @@ public class SendInformation {
         } finally {
             if (http != null) http.disconnect();
         }
-        return responseCode;
+        return content;
     }
 
 
-    public int peticionPUT( String strUrl, String data ,String UserAuthorization)
+    public int peticionPUT( String strUrl, String data)
     {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+
         HttpURLConnection http = null;
         int responseCode = -1;
 
@@ -52,7 +75,7 @@ public class SendInformation {
             http.setRequestMethod("PUT");
             http.setRequestProperty("Content-Type", "application/json");
             http.setRequestProperty("Accept", "application/json");
-            http.setRequestProperty("Authorization", UserAuthorization);
+            http.setRequestProperty("Authorization","Basic 1152216574");
             http.setDoOutput(true);
 
             PrintWriter writer = new PrintWriter(http.getOutputStream());

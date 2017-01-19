@@ -19,7 +19,7 @@ public class Useful {
     public String MillisecondsToDate(long timeInMillis){
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(timeInMillis);
-        String date = DateFormat.format("dd-MM-yyyy hh:mm:ss", cal).toString();
+        String date = DateFormat.format("yyyy-MM-dd hh:mm:ss", cal).toString();
 
 
         return  date;

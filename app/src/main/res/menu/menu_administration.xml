@@ -11,5 +11,5 @@
     <item android:id="@+id/btnRefresh"
         android:icon="@android:drawable/ic_menu_rotate"
         android:title="@string/btnRefresh"
-        android:orderInCategory="1" />
+        android:showAsAction="always" />
 </menu>

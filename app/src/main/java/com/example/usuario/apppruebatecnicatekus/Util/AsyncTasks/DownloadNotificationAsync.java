@@ -16,7 +16,7 @@ import com.example.usuario.apppruebatecnicatekus.Models.NotificationsModel;
  * Created by Usuario on 15/01/2017.
  */
 
-public class DownloadNotificationAsync extends AsyncTask <Void,Void,Void> {
+public class DownloadNotificationAsync extends AsyncTask <Void,Void,String> {
 
     private Context context;
     ProgressDialog pg;
@@ -26,7 +26,7 @@ public class DownloadNotificationAsync extends AsyncTask <Void,Void,Void> {
     public DownloadNotificationAsync(Context context, SQLiteDatabase db) {
         this.context=context;
         downloadInformation= new DownloadInformation();
-        pg= new ProgressDialog(context);
+        pg= new ProgressDialog(this.context);
         notificationsModel= new NotificationsModel(db);
         notificationsController= new NotificationsController(notificationsModel);
     }
@@ -34,7 +34,6 @@ public class DownloadNotificationAsync extends AsyncTask <Void,Void,Void> {
     @Override
     protected void onPreExecute() {
 
-        pg.setTitle("Tekus");
         pg.setMessage("Descargando Información");
         pg.setCancelable(false);
         pg.show();
@@ -42,22 +41,22 @@ public class DownloadNotificationAsync extends AsyncTask <Void,Void,Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected String doInBackground(Void... params) {
         String Response= downloadInformation.peticionGET("http://proyectos.tekus.co/Test/api/notifications");
         System.out.println("Response "+Response);
         notificationsController.updateNotificationsDownloaded(Response);
-
-        return null;
+        return "OK";
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(String aVoid) {
+
         pg.dismiss();
-        Intent i = new Intent();
-        i.setClass(context, AdministrationActivity.class);
-        context.startActivity(i);
-        android.os.Process.killProcess(android.os.Process.myPid());
         super.onPostExecute(aVoid);
+
+
+
+
     }
 
 

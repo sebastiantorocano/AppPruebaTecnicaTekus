@@ -1,5 +1,6 @@
 package com.example.usuario.apppruebatecnicatekus;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,12 +20,14 @@ import com.example.usuario.apppruebatecnicatekus.Util.AsyncTasks.DownloadNotific
 import com.example.usuario.apppruebatecnicatekus.Util.ShakeDetector;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MenuActivity extends AppCompatActivity {
 
     DownloadNotificationAsync downloadNotificationAsync;
     private SQLiteDatabase db;
     DataBase dataBase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +41,21 @@ public class MenuActivity extends AppCompatActivity {
 
 
     public void FindNotifications(View view) {
-       downloadNotificationAsync.execute();
+        try {
+            String response= downloadNotificationAsync.execute().get();
+            if(response.equals("OK")){
+                Intent i = new Intent();
+                i.setClass(MenuActivity.this,AdministrationActivity.class);
+                startActivity(i);
+                android.os.Process.killProcess(android.os.Process.myPid());
+
+            }
+            System.out.println("response "+response);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void DetectMovement(View view) {
