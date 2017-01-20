@@ -19,7 +19,6 @@ public class DownloadInformation {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        System.out.println("url "+strUrl);
         HttpURLConnection http = null;
         String content = null;
 

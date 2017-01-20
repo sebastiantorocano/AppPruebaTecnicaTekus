@@ -2,6 +2,7 @@ package com.example.usuario.apppruebatecnicatekus;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -64,4 +66,25 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(i);
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
+    public void Exit(View view) {
+        AlertDialog.Builder ad= new AlertDialog.Builder(MenuActivity.this);
+        ad.setTitle("Alerta");
+        ad.setMessage("¿Esta seguro que desea salir?");
+        ad.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.exit(0);
+            }
+        });
+
+        ad.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        ad.show();
+    }
+
 }

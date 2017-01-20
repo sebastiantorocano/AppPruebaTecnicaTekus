@@ -1,9 +1,13 @@
 package com.example.usuario.apppruebatecnicatekus.Util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.format.DateFormat;
+
+import com.example.usuario.apppruebatecnicatekus.AdministrationActivity;
+import com.example.usuario.apppruebatecnicatekus.MenuActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,41 +29,14 @@ public class Useful {
         return  date;
     }
 
-    public Date FormatDate(String Date){
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date dateFormat = null;
 
-        try {
-             dateFormat=formatoDelTexto.parse(Date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return dateFormat;
+    public void goActivity(Context from,Class to){
+        Intent i = new Intent();
+        i.setClass(from,to);
+        from.startActivity(i);
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    public long DiferenceHours(Date hour1, Date hour2){
-
-
-        System.out.println("hour1 "+hour1);
-        System.out.println("hour2 "+hour2);
-
-        long diff = hour1.getTime() - hour2.getTime();
-
-        long segundos = diff / 1000;
-
-
-
-        return segundos;
-    }
-
-    public String GetHourDate(String Date){
-        String[] arrDate = Date.split(" ");
-        String Hour = arrDate[1];
-
-        return Hour;
-
-    }
 
 
     public boolean hasInternet(Context context) {

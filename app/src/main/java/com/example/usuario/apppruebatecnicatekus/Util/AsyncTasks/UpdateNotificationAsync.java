@@ -32,7 +32,7 @@ public class UpdateNotificationAsync extends AsyncTask<Void, Void, String> {
         System.out.println("llego a notification update");
         String NotificationId = notificationsController.getNotificationId();
         System.out.println("Notificacion id to update "+NotificationId);
-        String json = notificationsController.getNotificationsSendUpdate();
+        String json = notificationsController.getNotificationsSend();
         System.out.println("json a enviar update " + json);
         sendInformation.peticionPUT("http://proyectos.tekus.co/Test/api/notifications/"+NotificationId, json);
 

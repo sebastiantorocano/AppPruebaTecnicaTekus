@@ -57,6 +57,7 @@ public class ShakeDetector  implements SensorEventListener{
 
 
     private static final float SHAKE_THRESHOLD = 1.0f;
+    private static final float Minumun_Shake = 0.97f;
     private static final int SHAKE_WAIT_TIME_MS = 250;
     private static final float ROTATION_THRESHOLD = 2.0f;
     private static final int ROTATION_WAIT_TIME_MS = 100;
@@ -84,8 +85,8 @@ public class ShakeDetector  implements SensorEventListener{
         notificationsController= new NotificationsController(notificationsModel);
         useful= new Useful();
 
-        insertNotificationAsync= new InsertNotificationAsync(db);
-        updateNotificationAsync= new UpdateNotificationAsync(db);
+
+
     }
 
 
@@ -117,7 +118,7 @@ public class ShakeDetector  implements SensorEventListener{
 
 
             System.out.println("gforce "+gForce);
-            if (gForce > SHAKE_THRESHOLD) {
+            if (gForce > SHAKE_THRESHOLD || gForce<Minumun_Shake) {
                  seconds=now-mShakeTime;
                 if(seconds==2000){
                     flag=true;
@@ -126,6 +127,7 @@ public class ShakeDetector  implements SensorEventListener{
                     String StringStartTime=useful.MillisecondsToDate(now);
                     notificationsController.deleteAll();
                     notificationsController.insertNotifications(StringStartTime);
+                    insertNotificationAsync= new InsertNotificationAsync(db);
                     insertNotificationAsync.execute();
                 }
                 if(seconds>2000 && flag==false){
@@ -134,6 +136,7 @@ public class ShakeDetector  implements SensorEventListener{
 
                     String StringStartTime=useful.MillisecondsToDate(now);
                     notificationsController.insertNotifications(StringStartTime);
+                    insertNotificationAsync= new InsertNotificationAsync(db);
                     insertNotificationAsync.execute();
                 }
 
@@ -143,10 +146,11 @@ public class ShakeDetector  implements SensorEventListener{
                 flag=false;
                 if(seconds>2000){
                     System.out.println("duration "+seconds);
-                    long totalDuration=now-mShakeTime;
+                    long totalDuration=(now-mShakeTime)/1000;
                     System.out.println("total duration "+totalDuration);
 
                     notificationsController.updateNofitications(totalDuration);
+                    updateNotificationAsync= new UpdateNotificationAsync(db);
                     updateNotificationAsync.execute();
 
                 }

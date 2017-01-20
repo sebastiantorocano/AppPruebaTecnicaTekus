@@ -70,7 +70,7 @@
                     android:background="@color/colorRed"
                     android:textColor="@color/colorWhite"
                     android:text="@string/btnExit"
-                    android:onClick="logIn"/>
+                    android:onClick="Exit"/>
 
             </LinearLayout>
 

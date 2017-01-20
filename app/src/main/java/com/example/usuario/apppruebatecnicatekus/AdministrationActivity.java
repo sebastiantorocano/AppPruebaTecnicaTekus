@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class AdministrationActivity extends AppCompatActivity {
 
     ListView NotificationList;
 
-
+    ImageButton btnRefresh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +79,20 @@ public class AdministrationActivity extends AppCompatActivity {
 
         onListClick(NotificationList);
 
+        btnRefresh = (ImageButton) findViewById(R.id.btnRefresh);
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Refresh();
+            }
+        });
+
     }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_administration, menu);
+        inflater.inflate(R.menu.menu_, menu);
         return true;
     }
 
@@ -95,10 +104,6 @@ public class AdministrationActivity extends AppCompatActivity {
                 Return();
                 return true;
 
-            case R.id.btnRefresh:
-                Refresh();
-
-                return true;
         }
         return true;
     }
@@ -141,10 +146,7 @@ public class AdministrationActivity extends AppCompatActivity {
     }
 
     public void Return() {
-
-        Intent i = new Intent();
-        i.setClass(AdministrationActivity.this,MenuActivity.class);
-        startActivity(i);
+        useful.goActivity(AdministrationActivity.this,MenuActivity.class);
     }
 
 
@@ -180,7 +182,7 @@ public class AdministrationActivity extends AppCompatActivity {
 
                 ttPrincipal.setText("Notification Id :" + Integer.toString(Nb.getNotificationId()));
                 ttSecondary.setText("Date :" + Nb.getDate().toString());
-                ttTertiary.setText("Duration :" + Integer.toString(Nb.getDuration()));
+                ttTertiary.setText("Duration :" + Integer.toString(Nb.getDuration())+" Seconds");
 
             }
             return v;

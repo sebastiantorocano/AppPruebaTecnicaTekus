@@ -8,8 +8,5 @@
         android:title="@string/btnReturn"
         app:showAsAction="never" />
 
-    <item android:id="@+id/btnRefresh"
-        android:icon="@android:drawable/ic_menu_rotate"
-        android:title="@string/btnRefresh"
-        android:showAsAction="always" />
+
 </menu>

@@ -20,7 +20,6 @@ public class DeleteNotificationAsync extends AsyncTask<Void,Void,String> {
 
     private Context context;
     ProgressDialog pg;
-    private DownloadInformation downloadInformation;
     private NotificationsController notificationsController;
     private NotificationsModel notificationsModel;
     private SendInformation sendInformation;
@@ -28,7 +27,6 @@ public class DeleteNotificationAsync extends AsyncTask<Void,Void,String> {
     private int NotificationId;
     public DeleteNotificationAsync(Context context, SQLiteDatabase db,int NotificationId) {
         this.context=context;
-        downloadInformation= new DownloadInformation();
         sendInformation=new SendInformation();
         pg= new ProgressDialog(context);
         notificationsModel= new NotificationsModel(db);

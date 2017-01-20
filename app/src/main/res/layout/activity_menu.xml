@@ -52,7 +52,8 @@
                 android:drawableLeft="@drawable/exit"
                 android:background="@color/colorButton"
                 android:textColor="@color/colorWhite"
-                android:text="@string/btnExit" />
+                android:text="@string/btnExit"
+                android:onClick="Exit"/>
         </LinearLayout>
 
 
