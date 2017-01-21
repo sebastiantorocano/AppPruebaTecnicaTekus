@@ -37,27 +37,14 @@ public class MenuActivity extends AppCompatActivity {
 
         dataBase = new DataBase(MenuActivity.this);
         db = dataBase.getReadableDatabase();
-        downloadNotificationAsync= new DownloadNotificationAsync(MenuActivity.this,db);
+        downloadNotificationAsync = new DownloadNotificationAsync(MenuActivity.this, db,AdministrationActivity.class);
 
     }
 
 
     public void FindNotifications(View view) {
-        try {
-            String response= downloadNotificationAsync.execute().get();
-            if(response.equals("OK")){
-                Intent i = new Intent();
-                i.setClass(MenuActivity.this,AdministrationActivity.class);
-                startActivity(i);
-                android.os.Process.killProcess(android.os.Process.myPid());
+        downloadNotificationAsync.execute();
 
-            }
-            System.out.println("response "+response);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
     }
 
     public void DetectMovement(View view) {
@@ -68,7 +55,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void Exit(View view) {
-        AlertDialog.Builder ad= new AlertDialog.Builder(MenuActivity.this);
+        AlertDialog.Builder ad = new AlertDialog.Builder(MenuActivity.this);
         ad.setTitle("Alerta");
         ad.setMessage("¿Esta seguro que desea salir?");
         ad.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {

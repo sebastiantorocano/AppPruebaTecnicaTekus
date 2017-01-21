@@ -2,23 +2,20 @@ package com.example.usuario.apppruebatecnicatekus.Util.AsyncTasks;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Base64;
 
 import com.example.usuario.apppruebatecnicatekus.AdministrationActivity;
 import com.example.usuario.apppruebatecnicatekus.Connection.DownloadInformation;
 import com.example.usuario.apppruebatecnicatekus.Controllers.NotificationsController;
-import com.example.usuario.apppruebatecnicatekus.MenuActivity;
 import com.example.usuario.apppruebatecnicatekus.Models.NotificationsModel;
 import com.example.usuario.apppruebatecnicatekus.Util.Useful;
 
 /**
- * Created by Usuario on 15/01/2017.
+ * Created by Usuario on 20/01/2017.
  */
 
-public class DownloadNotificationAsync extends AsyncTask <Void,Void,String> {
+public class RefreshNotificationsAsync  extends AsyncTask<Void,Void,String> {
 
     private Context context;
     ProgressDialog pg;
@@ -29,8 +26,8 @@ public class DownloadNotificationAsync extends AsyncTask <Void,Void,String> {
 
 
     Useful useful;
-    Class To;
-    public DownloadNotificationAsync(Context context, SQLiteDatabase db,Class To) {
+
+    public RefreshNotificationsAsync(Context context, SQLiteDatabase db) {
         this.context=context;
         downloadInformation= new DownloadInformation();
         pg= new ProgressDialog(this.context);
@@ -39,7 +36,7 @@ public class DownloadNotificationAsync extends AsyncTask <Void,Void,String> {
 
         administrationActivity= new AdministrationActivity();
         useful= new Useful();
-        this.To=To;
+
     }
 
     @Override
@@ -54,7 +51,6 @@ public class DownloadNotificationAsync extends AsyncTask <Void,Void,String> {
     @Override
     protected String doInBackground(Void... params) {
         String Response= downloadInformation.peticionGET("http://proyectos.tekus.co/Test/api/notifications");
-        System.out.println("Response "+Response);
         notificationsController.updateNotificationsDownloaded(Response);
 
         return "OK";
@@ -64,13 +60,10 @@ public class DownloadNotificationAsync extends AsyncTask <Void,Void,String> {
     protected void onPostExecute(String aVoid) {
 
         pg.dismiss();
-            useful.goActivity(context,To);
         super.onPostExecute(aVoid);
 
 
 
 
     }
-
-
 }

@@ -31,6 +31,7 @@ import com.example.usuario.apppruebatecnicatekus.Controllers.NotificationsContro
 import com.example.usuario.apppruebatecnicatekus.Models.NotificationsModel;
 import com.example.usuario.apppruebatecnicatekus.Util.AsyncTasks.DeleteNotificationAsync;
 import com.example.usuario.apppruebatecnicatekus.Util.AsyncTasks.DownloadNotificationAsync;
+import com.example.usuario.apppruebatecnicatekus.Util.AsyncTasks.RefreshNotificationsAsync;
 import com.example.usuario.apppruebatecnicatekus.Util.Useful;
 
 import java.util.ArrayList;
@@ -54,6 +55,11 @@ public class AdministrationActivity extends AppCompatActivity {
     ListView NotificationList;
 
     ImageButton btnRefresh;
+
+    TextView txtInformationAdministration;
+
+    int cont=0;
+    int sum=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +85,7 @@ public class AdministrationActivity extends AppCompatActivity {
 
         onListClick(NotificationList);
 
+        txtInformationAdministration=(TextView) findViewById(R.id.txtInformationAdministration);
         btnRefresh = (ImageButton) findViewById(R.id.btnRefresh);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +93,10 @@ public class AdministrationActivity extends AppCompatActivity {
                 Refresh();
             }
         });
+
+
+        txtInformationAdministration.setText("Señor usuario, hay "+cont + " notificaciones, las cuales suman en duración "+sum+" segundos");
+
 
     }
 
@@ -108,18 +119,22 @@ public class AdministrationActivity extends AppCompatActivity {
         return true;
     }
 
-    private String callAsyncDownloadNotifications(){
+    private void callAsyncDownloadNotifications(){
         String response="";
-        DownloadNotificationAsync downloadNotificationAsync= new DownloadNotificationAsync(AdministrationActivity.this,db);
+        RefreshNotificationsAsync downloadNotificationAsync= new RefreshNotificationsAsync(AdministrationActivity.this,db);
+
         try {
-          response=  downloadNotificationAsync.execute().get();
+            response=downloadNotificationAsync.execute().get();
+            if(response.equals("OK")){
+                InitializeNotifications();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
-        return  response;
+
     }
     public void Refresh(){
         AlertDialog.Builder ad= new AlertDialog.Builder(AdministrationActivity.this);
@@ -128,11 +143,8 @@ public class AdministrationActivity extends AppCompatActivity {
         ad.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String response=callAsyncDownloadNotifications();
-                System.out.println("response refresh "+response);
-                if(response.equals("OK")){
-                    InitializeNotifications();
-                }
+                callAsyncDownloadNotifications();
+
             }
         });
         ad.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -176,9 +188,7 @@ public class AdministrationActivity extends AppCompatActivity {
                 TextView ttSecondary = (TextView) v.findViewById(R.id.lblSecondaryText);
                 TextView ttTertiary = (TextView) v.findViewById(R.id.lblTertiaryText);
 
-
-                System.out.println("Notificationid " + Nb.getNotificationId());
-                System.out.println("DATE " + Nb.getDate().toString());
+                
 
                 ttPrincipal.setText("Notification Id :" + Integer.toString(Nb.getNotificationId()));
                 ttSecondary.setText("Date :" + Nb.getDate().toString());
@@ -241,13 +251,14 @@ public class AdministrationActivity extends AppCompatActivity {
         });
     }
 
-    private void InitializeNotifications() {
-        m_localsNotifications.clear();
+    public void InitializeNotifications() {
+        //m_localsNotifications.clear();
         adapterNotfication.clear();
 
         m_localsNotifications = new ArrayList<NotificationBean>();
         Hashtable result = notificationsController.getAllNotifications();
         for (int i = 0; i < result.size(); i++) {
+            cont++;
             Hashtable data = (Hashtable) result.get(i);
 
             NotificationBean nb = new NotificationBean();
@@ -259,6 +270,8 @@ public class AdministrationActivity extends AppCompatActivity {
 
 
             nb.Local(_id, date, duration, sendState, notificacion_Id);
+
+            sum=sum+duration;
 
             m_localsNotifications.add(nb);
 
@@ -273,9 +286,7 @@ public class AdministrationActivity extends AppCompatActivity {
         }
 
         adapterNotfication.notifyDataSetChanged();
-
-
-    }
+        }
 
 
 }

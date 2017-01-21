@@ -23,7 +23,7 @@ public class DeleteNotificationAsync extends AsyncTask<Void,Void,String> {
     private NotificationsController notificationsController;
     private NotificationsModel notificationsModel;
     private SendInformation sendInformation;
-    DownloadNotificationAsync downloadNotificationAsync;
+
     private int NotificationId;
     public DeleteNotificationAsync(Context context, SQLiteDatabase db,int NotificationId) {
         this.context=context;
@@ -32,7 +32,6 @@ public class DeleteNotificationAsync extends AsyncTask<Void,Void,String> {
         notificationsModel= new NotificationsModel(db);
         notificationsController= new NotificationsController(notificationsModel);
         this.NotificationId=NotificationId;
-         downloadNotificationAsync= new DownloadNotificationAsync(context,db);
     }
 
     @Override

@@ -9,6 +9,6 @@
     <string name="btnReturn">Volver</string>
     <string name="btnRefresh">Refrescar</string>
     <string name="lblInformation">Información</string>
-
     <string name="lblDescriptionInformation">Señor usuario, en este momento se comenzará a detectar los movimientos de los activos de la empresa</string>
+    <string name="lblVersion">Versión 1.0</string>
 </resources>

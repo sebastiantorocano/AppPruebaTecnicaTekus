@@ -72,6 +72,12 @@
                     android:text="@string/btnExit"
                     android:onClick="Exit"/>
 
+                <TextView
+                    android:layout_marginTop="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblVersion"/>
+
             </LinearLayout>
 
 
